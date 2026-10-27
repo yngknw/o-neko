@@ -66,9 +66,13 @@ public class HelmCommands {
 
 	public void addRegistry(ReadableHelmRegistry helmRegistry) throws HelmRegistryException {
 		try {
-			addRepoTimer.record(() ->
-					helm.addRepo(helmRegistry.getName(), helmRegistry.getUrl(), helmRegistry.getUsername(), helmRegistry.getPassword())
-			);
+			addRepoTimer.record(() -> {
+				if (helmRegistry.isOCIRegistry()) {
+					helm.loginToRegistry(helmRegistry.getUrl(), helmRegistry.getUsername(), helmRegistry.getPassword());
+				} else {
+					helm.addRepo(helmRegistry.getName(), helmRegistry.getUrl(), helmRegistry.getUsername(), helmRegistry.getPassword());
+				}
+			});
 		} catch (CommandException e) {
 			commandErrorCounter.increment();
 			throw HelmRegistryException.fromCommandException(e, helmRegistry.getUrl(), helmRegistry.getName());
@@ -77,9 +81,13 @@ public class HelmCommands {
 
 	public void deleteRegistry(ReadableHelmRegistry helmRegistry) throws HelmRegistryException {
 		try {
-			deleteRepoTimer.record(() ->
-					helm.removeRepo(helmRegistry.getName())
-			);
+			deleteRepoTimer.record(() -> {
+				if (helmRegistry.isOCIRegistry()) {
+					helm.logoutFromRegistry(helmRegistry.getUrl());
+				} else {
+					helm.removeRepo(helmRegistry.getName());
+				}
+			});
 		} catch (CommandException e) {
 			commandErrorCounter.increment();
 			throw HelmRegistryException.fromCommandException(e, helmRegistry.getUrl(), helmRegistry.getName());

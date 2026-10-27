@@ -47,9 +47,13 @@ public interface Helm3API {
 
 	void addRepo(String name, String url, String username, String password, boolean forceUpdate, boolean passCredentials);
 
+	void loginToRegistry(String url, String username, String password);
+
 	List<Repository> listRepos();
 
 	void removeRepo(String name);
+
+	void logoutFromRegistry(String url);
 
 	void updateRepos();
 

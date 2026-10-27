@@ -115,6 +115,18 @@ public class Helm implements Helm3API {
 	}
 
 	@Override
+	public void loginToRegistry(String url, String username, String password) {
+
+		final String[] command = initCommand("helm", "registry", "login")
+			.withArgument(url)
+			.withFlag("--username", username)
+			.withFlag("--password", password)
+			.build();
+		var out = executor.execute(command);
+		log.info(out);
+	}
+
+	@Override
 	public List<Repository> listRepos() {
 		return executor.executeWithJsonOutput(new TypeToken<List<Repository>>() {
 		}.getType(), "helm", "repo", "list", "-ojson");
@@ -125,6 +137,15 @@ public class Helm implements Helm3API {
 		final String[] command = initCommand("helm", "repo", "remove")
 				.withArgument(name)
 				.build();
+		var out = executor.execute(command);
+		log.info(out);
+	}
+
+	@Override
+	public void logoutFromRegistry(String url) {
+		final String[] command = initCommand("helm", "registry", "logout")
+			.withArgument(url)
+			.build();
 		var out = executor.execute(command);
 		log.info(out);
 	}
