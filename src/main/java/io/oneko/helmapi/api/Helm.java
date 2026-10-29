@@ -118,9 +118,10 @@ public class Helm implements Helm3API {
 	public void loginToRegistry(String url, String username, String password) {
 
 		final String[] command = initCommand("helm", "registry", "login")
-			.withArgument(url)
+			.withArgument(url.replaceFirst("^oci://", ""))
 			.withFlag("--username", username)
 			.withFlag("--password", password)
+			.withFlag("--plain-http", true) //TODO delete
 			.build();
 		var out = executor.execute(command);
 		log.info(out);
