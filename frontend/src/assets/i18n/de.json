@@ -140,7 +140,10 @@
       "editDialog": {
         "createRegistry": "Helm Registry anlegen",
         "editRegistry": "Helm Registry bearbeiten",
-        "registryHasBeenModifiedByAction": "Die Helm Registry {registry} wurde {action, select, created{angelegt} deleted{gelöscht} saved{gespeichert} other{bearbeitet}}."
+        "registryHasBeenModifiedByAction": "Die Helm Registry {registry} wurde {action, select, created{angelegt} deleted{gelöscht} saved{gespeichert} other{bearbeitet}}.",
+        "registryType": "Registry-Typ",
+        "ociRegistry": "OCI Registry",
+        "classicRegistry": "Klassisches Repository"
       },
       "registryUrl": "Registry URL",
       "helmRegistries": "!alias:menu.administration.helmRegistries",
