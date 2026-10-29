@@ -14,7 +14,7 @@
           <mat-radio-button value="classic">{{'components.helmRegistry.editDialog.classicRegistry' | translate}}</mat-radio-button>
           <mat-radio-button value="oci">{{'components.helmRegistry.editDialog.ociRegistry' | translate}}</mat-radio-button>
         </mat-radio-group>
-        <mat-form-field>
+        <mat-form-field floatLabel="never">
           <span *ngIf="registryType === 'oci'" matPrefix>{{OCI_PREFIX}}</span>
           <input type="text" matInput [(ngModel)]="registryUrl" (ngModelChange)="urlUpdated()" autocomplete="off" required name="url" id="url"
                  [placeholder]="'components.helmRegistry.registryUrl' | translate" #url="ngModel" [disabled]="isReadonly()">
