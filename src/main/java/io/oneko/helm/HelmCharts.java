@@ -33,10 +33,14 @@ public class HelmCharts {
 				.build(registryId -> helmRegistryRepository.getById(registryId)
 						.flatMap(helmRegistry -> {
 							try {
-								List<Chart> charts = helmCommands.getCharts(helmRegistry);
-								log.debug("found helm charts ({}, {})", kv("chart_count", charts.size()), helmRegistryKv(helmRegistry));
+								if (!helmRegistry.isOCIRegistry()) {
+									List<Chart> charts = helmCommands.getCharts(helmRegistry);
+									log.debug("found helm charts ({}, {})", kv("chart_count", charts.size()), helmRegistryKv(helmRegistry));
 
-								return toHelmChartDTO(helmRegistry, charts);
+									return toHelmChartDTO(helmRegistry, charts);
+								} else {
+									return toHelmChartDTO(helmRegistry, List.of());
+								}
 							} catch (HelmRegistryException e) {
 								return Optional.empty();
 							}
