@@ -145,7 +145,7 @@ public class Helm implements Helm3API {
 	@Override
 	public void logoutFromRegistry(String url) {
 		final String[] command = initCommand("helm", "registry", "logout")
-			.withArgument(url)
+			.withArgument(url.replaceFirst("^oci://", ""))
 			.build();
 		var out = executor.execute(command);
 		log.info(out);
